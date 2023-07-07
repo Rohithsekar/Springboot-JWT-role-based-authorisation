@@ -1,10 +1,10 @@
-package com.unkownkoder.repository;
+package com.rohi.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.unkownkoder.models.ApplicationUser;
+import com.rohi.models.ApplicationUser;
 
 @Repository
 public interface UserRepository extends JpaRepository<ApplicationUser, Integer> {

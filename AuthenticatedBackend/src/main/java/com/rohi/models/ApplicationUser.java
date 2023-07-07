@@ -1,4 +1,4 @@
-package com.unkownkoder.models;
+package com.rohi.models;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 public class ApplicationUser implements UserDetails{
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer userId;
 	@Column(unique=true)
     private String username;
@@ -43,9 +43,8 @@ public class ApplicationUser implements UserDetails{
 	}
 	
 
-	public ApplicationUser(Integer userId, String username, String password, Set<Role> authorities) {
+	public ApplicationUser(String username, String password, Set<Role> authorities) {
 		super();
-		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;

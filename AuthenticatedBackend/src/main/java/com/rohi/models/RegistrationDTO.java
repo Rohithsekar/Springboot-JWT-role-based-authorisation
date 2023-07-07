@@ -1,4 +1,4 @@
-package com.unkownkoder.models;
+package com.rohi.models;
 
 public class RegistrationDTO {
     private String username;

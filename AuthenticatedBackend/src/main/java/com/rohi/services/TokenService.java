@@ -1,6 +1,7 @@
-package com.unkownkoder.services;
+package com.rohi.services;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
             .issuer("self")
             .issuedAt(now)
+                .expiresAt(now.now().plus(2, ChronoUnit.MINUTES))
             .subject(auth.getName())
             .claim("roles", scope)
             .build();

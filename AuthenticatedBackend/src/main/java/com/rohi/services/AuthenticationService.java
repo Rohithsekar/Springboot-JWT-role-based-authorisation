@@ -1,4 +1,4 @@
-package com.unkownkoder.services;
+package com.rohi.services;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,11 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.unkownkoder.models.ApplicationUser;
-import com.unkownkoder.models.LoginResponseDTO;
-import com.unkownkoder.models.Role;
-import com.unkownkoder.repository.RoleRepository;
-import com.unkownkoder.repository.UserRepository;
+import com.rohi.models.ApplicationUser;
+import com.rohi.models.LoginResponseDTO;
+import com.rohi.models.Role;
+import com.rohi.repository.RoleRepository;
+import com.rohi.repository.UserRepository;
 
 @Service
 @Transactional
@@ -46,7 +46,7 @@ public class AuthenticationService {
 
         authorities.add(userRole);
 
-        return userRepository.save(new ApplicationUser(0, username, encodedPassword, authorities));
+        return userRepository.save(new ApplicationUser(username, encodedPassword, authorities));
     }
 
     public LoginResponseDTO loginUser(String username, String password){
