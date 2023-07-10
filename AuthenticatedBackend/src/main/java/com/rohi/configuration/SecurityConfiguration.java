@@ -1,5 +1,7 @@
 package com.rohi.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,17 +33,21 @@ public class SecurityConfiguration {
 
     private final RSAKeyProperties keys;
 
+    private Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     public SecurityConfiguration(RSAKeyProperties keys){
         this.keys = keys;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+        log.debug("inside password Encoder method");
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authManager(UserDetailsService detailsService){
+        log.debug("inside authManager method");
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
         daoProvider.setUserDetailsService(detailsService);
         daoProvider.setPasswordEncoder(passwordEncoder());
@@ -50,6 +56,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        log.debug("inside filter chain method");
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> {
@@ -71,11 +78,13 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder(){
+        log.debug("********inside jwtDecoder method********");
         return NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
     }
 
     @Bean
     public JwtEncoder jwtEncoder(){
+        log.debug("*********inside jwtEncoder method**********");
         JWK jwk = new RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -83,6 +92,7 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
+        log.debug("*******inside jwtAuthenticationConverter method*******");
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
